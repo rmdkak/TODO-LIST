@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/Cards.css";
 
-function Cards({ item, ondeleteHandler, onToggleHandler }) {
+function Cards({ item, onDeleteHandler, onToggleHandler }) {
   return (
     <div className="cards" key={item.id}>
       <div>
@@ -9,7 +9,7 @@ function Cards({ item, ondeleteHandler, onToggleHandler }) {
         <div>{item.body}</div>
       </div>
       <div className="btn-box">
-        <button onClick={() => ondeleteHandler(item.id)} className="delete-btn">
+        <button onClick={() => onDeleteHandler(item.id)} className="delete-btn">
           삭제
         </button>
         <button

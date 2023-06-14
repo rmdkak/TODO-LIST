@@ -6,7 +6,9 @@ let number = 2;
 function Form({ setText, text }) {
   //input.value를 담아줄 state
   const [title, setTitle] = useState("");
+
   const [body, setBody] = useState("");
+
   //input.value를 가져와 state에 담아줌
   const titleChangeHandler = (event) => {
     setTitle(event.target.value);
@@ -20,12 +22,14 @@ function Form({ setText, text }) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (title === "" || body === "") return;
+
     const newText = {
       id: 0,
       title,
       body,
       isDone: false,
     };
+
     setText([...text, { ...newText, id: number }]);
     number++;
     setTitle("");
