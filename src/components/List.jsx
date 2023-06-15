@@ -6,7 +6,8 @@ function List({ setText, text }) {
   //선택한 객체의 id값과 불일치하는 것들만 state에 남겨줌
   const onDeleteHandler = (id) => {
     const newTextList = text.filter((e) => e.id !== id);
-    setText(newTextList);
+    localStorage.setItem("myGoal", JSON.stringify(newTextList));
+    setText(JSON.parse(localStorage.getItem("myGoal")));
   };
   //선택한 id와 일치한 객체의 속성에 접근해 isDone:value boolean 타입을 변경해줌
   const onToggleHandler = (id) => {
@@ -16,14 +17,8 @@ function List({ setText, text }) {
       }
       return { ...obj };
     });
-    // //findIndex를 이용한 다른 방법
-    // const index = text.findIndex((obj) => obj.id === id);
-    // const newText = [
-    //   ...text.slice(0, index),
-    //   { ...text[index], isDone: !text[index].isDone },
-    //   ...text.slice(index + 1, text.length),
-    // ];
-    setText(newText);
+    localStorage.setItem("myGoal", JSON.stringify(newText));
+    setText(JSON.parse(localStorage.getItem("myGoal")));
   };
 
   return (
