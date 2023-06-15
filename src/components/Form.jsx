@@ -5,7 +5,9 @@ import "../css/Form.css";
 function Form({ setText, text }) {
   //input.value를 담아줄 state
   const [title, setTitle] = useState("");
+
   const [body, setBody] = useState("");
+
   //input.value를 가져와 state에 담아줌
   const titleChangeHandler = (event) => {
     setTitle(event.target.value);
@@ -19,15 +21,19 @@ function Form({ setText, text }) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (title === "" || body === "") return;
+
     const dateNow = Date.now();
+
     const newText = {
       id: dateNow,
       title,
       body,
       isDone: false,
     };
+    
     localStorage.setItem("myGoal", JSON.stringify([...text, newText]));
     setText(JSON.parse(localStorage.getItem("myGoal")));
+
     setTitle("");
     setBody("");
   };

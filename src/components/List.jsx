@@ -9,6 +9,7 @@ function List({ setText, text }) {
     localStorage.setItem("myGoal", JSON.stringify(newTextList));
     setText(JSON.parse(localStorage.getItem("myGoal")));
   };
+
   //선택한 id와 일치한 객체의 속성에 접근해 isDone:value boolean 타입을 변경해줌
   const onToggleHandler = (id) => {
     const newText = text.map((obj) => {
