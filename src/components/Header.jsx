@@ -3,9 +3,9 @@ import "../css/Header.css";
 
 function Header() {
   return (
-    <div className="container">
-      <div>To Do List</div>
-      <div>React</div>
+    <div className="head">
+      <div className="main-title">To Do List</div>
+      <div className="sub-title">develop by React</div>
     </div>
   );
 }
