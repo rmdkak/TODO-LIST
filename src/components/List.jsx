@@ -23,8 +23,8 @@ function List({ setText, text }) {
 
   return (
     <div className="card-list">
-      <h2>Working..👨‍💼</h2>
       <div className="list">
+        <h2>Working..👨‍💼</h2>
         {text
           .filter((obj) => obj.isDone === false)
           .map((item) => {
@@ -38,8 +38,8 @@ function List({ setText, text }) {
             );
           })}
       </div>
-      <h2>Done!🙆‍♂️</h2>
       <div className="list">
+        <h2>Done!🙆‍♂️</h2>
         {text
           .filter((obj) => obj.isDone !== false)
           .map((item) => {
