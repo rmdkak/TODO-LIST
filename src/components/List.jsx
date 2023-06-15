@@ -6,7 +6,8 @@ function List({ setText, text }) {
   //선택한 객체의 id값과 불일치하는 것들만 state에 남겨줌
   const onDeleteHandler = (id) => {
     const newTextList = text.filter((e) => e.id !== id);
-    setText(newTextList);
+    localStorage.setItem("myGoal", JSON.stringify(newTextList));
+    setText(JSON.parse(localStorage.getItem("myGoal")));
   };
 
   //선택한 id와 일치한 객체의 속성에 접근해 isDone:value boolean 타입을 변경해줌
@@ -17,13 +18,14 @@ function List({ setText, text }) {
       }
       return { ...obj };
     });
-    setText(newText);
+    localStorage.setItem("myGoal", JSON.stringify(newText));
+    setText(JSON.parse(localStorage.getItem("myGoal")));
   };
 
   return (
     <div className="card-list">
-      <h2>Working..👨‍💼</h2>
       <div className="list">
+        <h2>Working..👨‍💼</h2>
         {text
           .filter((obj) => obj.isDone === false)
           .map((item) => {
@@ -37,8 +39,8 @@ function List({ setText, text }) {
             );
           })}
       </div>
-      <h2>Done!🙆‍♂️</h2>
       <div className="list">
+        <h2>Done!🙆‍♂️</h2>
         {text
           .filter((obj) => obj.isDone !== false)
           .map((item) => {

@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import "../css/Form.css";
 
-let number = 2;
 function Form({ setText, text }) {
   //input.value를 담아줄 state
   const [title, setTitle] = useState("");
@@ -23,15 +22,18 @@ function Form({ setText, text }) {
     event.preventDefault();
     if (title === "" || body === "") return;
 
+    const dateNow = Date.now();
+
     const newText = {
-      id: 0,
+      id: dateNow,
       title,
       body,
       isDone: false,
     };
+    
+    localStorage.setItem("myGoal", JSON.stringify([...text, newText]));
+    setText(JSON.parse(localStorage.getItem("myGoal")));
 
-    setText([...text, { ...newText, id: number }]);
-    number++;
     setTitle("");
     setBody("");
   };
