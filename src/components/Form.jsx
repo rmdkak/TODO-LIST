@@ -1,41 +1,39 @@
 import React from "react";
-import { useState } from "react";
-import "../css/Form.css";
+import "css/Form.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addTitle, emptyTitle } from "redux/modules/title";
+import { addBody, emptyBody } from "redux/modules/body";
+import { newGoal } from "redux/modules/goal";
 
-function Form({ setText, text }) {
-  //input.value를 담아줄 state
-  const [title, setTitle] = useState("");
+function Form() {
+  const store = useSelector((state) => state);
+  const title = store.title;
+  const body = store.body;
 
-  const [body, setBody] = useState("");
+  const dispatch = useDispatch();
 
-  //input.value를 가져와 state에 담아줌
   const titleChangeHandler = (event) => {
-    setTitle(event.target.value);
+    dispatch(addTitle(event.target.value));
   };
 
   const bodyChangeHandler = (event) => {
-    setBody(event.target.value);
+    dispatch(addBody(event.target.value));
   };
-  //input의 state들을 새 객체에 담아 text state에 합쳐줌
-  //핸들러 이벤트 발생 시 input 내용 초기화
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (title === "" || body === "") return;
-
-    const dateNow = Date.now();
+    if (title.title === "" || body.body === "") return;
 
     const newText = {
-      id: dateNow,
-      title,
-      body,
+      id: Date.now(),
+      title: title.title,
+      body: body.body,
       isDone: false,
     };
-    
-    localStorage.setItem("myGoal", JSON.stringify([...text, newText]));
-    setText(JSON.parse(localStorage.getItem("myGoal")));
 
-    setTitle("");
-    setBody("");
+    dispatch(newGoal(newText));
+    dispatch(emptyTitle());
+    dispatch(emptyBody());
   };
 
   return (
@@ -46,14 +44,14 @@ function Form({ setText, text }) {
           type="text"
           className="input-area"
           onChange={titleChangeHandler}
-          value={title}
+          value={title.title}
         ></input>
         <label>내용</label>
         <input
           type="text"
           className="input-area"
           onChange={bodyChangeHandler}
-          value={body}
+          value={body.body}
         ></input>
       </div>
       <button className="btn">추가하기</button>
@@ -61,4 +59,4 @@ function Form({ setText, text }) {
   );
 }
 
-export default Form;
+export default React.memo(Form);

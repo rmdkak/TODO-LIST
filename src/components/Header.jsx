@@ -1,10 +1,10 @@
 import React from "react";
-import "../css/Header.css";
+import "css/Header.css";
 
 function Header() {
   return (
     <div className="head">
-      <div className="main-title">To Do List</div>
+      <h1 className="main-title">To Do List</h1>
       <div className="sub-title">develop by React</div>
     </div>
   );
