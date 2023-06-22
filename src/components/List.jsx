@@ -1,33 +1,25 @@
 import React from "react";
 import Cards from "components/Cards";
-import "css/List.css";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteGoal, ChangeBooleanGoal } from "redux/modules/goal";
+import { styled } from "styled-components";
 
 function List() {
-  const store = useSelector((state) => state);
-  const goal = store.goal;
+  const goal = useSelector((state) => state.goal);
 
   const dispatch = useDispatch();
 
   const onDeleteHandler = (id) => {
-    const newTextList = goal.filter((e) => e.id !== id);
-    dispatch(deleteGoal(newTextList));
+    dispatch(deleteGoal(id));
   };
 
   const onToggleHandler = (id) => {
-    const newText = goal.map((obj) => {
-      if (obj.id === id) {
-        return { ...obj, isDone: !obj.isDone };
-      }
-      return { ...obj };
-    });
-    dispatch(ChangeBooleanGoal(newText));
+    dispatch(ChangeBooleanGoal(id));
   };
 
   return (
-    <section className="card-list">
-      <div className="list">
+    <STCardList>
+      <STList>
         <h2>Working..👨‍💼</h2>
         {goal
           .filter((obj) => obj.isDone === false)
@@ -41,8 +33,8 @@ function List() {
               />
             );
           })}
-      </div>
-      <div className="list">
+      </STList>
+      <STList>
         <h2>Done!🙆‍♂️</h2>
         {goal
           .filter((obj) => obj.isDone !== false)
@@ -56,9 +48,22 @@ function List() {
               />
             );
           })}
-      </div>
-    </section>
+      </STList>
+    </STCardList>
   );
 }
+
+const STCardList = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+`;
+
+const STList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+`;
 
 export default List;

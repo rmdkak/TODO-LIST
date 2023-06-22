@@ -30,9 +30,14 @@ const goal = (state = initialState, action) => {
     case NEW_GOAL:
       return [...state, action.payload];
     case DELETE_GOAL:
-      return action.payload;
+      return state.filter((obj) => obj.id !== action.payload);
     case CHANGE_BOOLEAN_GOAL:
-      return action.payload;
+      return state.map((obj) => {
+        if (obj.id === action.payload) {
+          return { ...obj, isDone: !obj.isDone };
+        }
+        return { ...obj };
+      });
     default:
       return state;
   }
