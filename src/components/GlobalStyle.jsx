@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: "TAEBAEKmilkyway";
         font-weight: bold;
         font-style: normal;
+        word-break: break-all ;
     }
 
     body {

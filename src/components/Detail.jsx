@@ -49,7 +49,7 @@ const DetailBox = styled.div`
   border-radius: 40px;
   background-color: #f4f6ff;
   width: 800px;
-  gap: 130px;
+  gap: 50px;
   padding: 50px;
   box-shadow: 2px 2px 5px #00000054;
 `;
