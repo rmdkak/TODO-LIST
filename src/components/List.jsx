@@ -1,32 +1,27 @@
 import React from "react";
-import Cards from "./Cards";
-import "../css/List.css";
+import Cards from "components/Cards";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteGoal, ChangeBooleanGoal } from "redux/modules/goal";
+import { styled } from "styled-components";
 
-function List({ setText, text }) {
-  //선택한 객체의 id값과 불일치하는 것들만 state에 남겨줌
+function List() {
+  const goal = useSelector((state) => state.goal);
+
+  const dispatch = useDispatch();
+
   const onDeleteHandler = (id) => {
-    const newTextList = text.filter((e) => e.id !== id);
-    localStorage.setItem("myGoal", JSON.stringify(newTextList));
-    setText(JSON.parse(localStorage.getItem("myGoal")));
+    dispatch(deleteGoal(id));
   };
 
-  //선택한 id와 일치한 객체의 속성에 접근해 isDone:value boolean 타입을 변경해줌
   const onToggleHandler = (id) => {
-    const newText = text.map((obj) => {
-      if (obj.id === id) {
-        return { ...obj, isDone: !obj.isDone };
-      }
-      return { ...obj };
-    });
-    localStorage.setItem("myGoal", JSON.stringify(newText));
-    setText(JSON.parse(localStorage.getItem("myGoal")));
+    dispatch(ChangeBooleanGoal(id));
   };
 
   return (
-    <div className="card-list">
-      <div className="list">
+    <STCardList>
+      <STList>
         <h2>Working..👨‍💼</h2>
-        {text
+        {goal
           .filter((obj) => obj.isDone === false)
           .map((item) => {
             return (
@@ -38,10 +33,10 @@ function List({ setText, text }) {
               />
             );
           })}
-      </div>
-      <div className="list">
+      </STList>
+      <STList>
         <h2>Done!🙆‍♂️</h2>
-        {text
+        {goal
           .filter((obj) => obj.isDone !== false)
           .map((item) => {
             return (
@@ -53,9 +48,22 @@ function List({ setText, text }) {
               />
             );
           })}
-      </div>
-    </div>
+      </STList>
+    </STCardList>
   );
 }
+
+const STCardList = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+`;
+
+const STList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+`;
 
 export default List;

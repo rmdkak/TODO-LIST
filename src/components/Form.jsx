@@ -1,14 +1,22 @@
 import React from "react";
-import { useState } from "react";
-import "../css/Form.css";
+import { useState, useEffect, useRef } from "react";
+import { newGoal } from "redux/modules/goal";
+import { useDispatch } from "react-redux";
+import { styled } from "styled-components";
 
-function Form({ setText, text }) {
-  //input.value를 담아줄 state
+function Form() {
   const [title, setTitle] = useState("");
-
   const [body, setBody] = useState("");
 
-  //input.value를 가져와 state에 담아줌
+  const dispatch = useDispatch();
+
+  const titleRef = useRef("");
+  const bodyRef = useRef("");
+
+  useEffect(() => {
+    titleRef.current.focus();
+  }, []);
+
   const titleChangeHandler = (event) => {
     setTitle(event.target.value);
   };
@@ -16,49 +24,95 @@ function Form({ setText, text }) {
   const bodyChangeHandler = (event) => {
     setBody(event.target.value);
   };
-  //input의 state들을 새 객체에 담아 text state에 합쳐줌
-  //핸들러 이벤트 발생 시 input 내용 초기화
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (title === "" || body === "") return;
-
-    const dateNow = Date.now();
+    if (title === "" || body === "") {
+      if (title === "") titleRef.current.focus();
+      else bodyRef.current.focus();
+      return alert("제목과 내용을 전부 작성해 주세요!");
+    }
 
     const newText = {
-      id: dateNow,
+      id: Date.now(),
       title,
       body,
       isDone: false,
     };
-    
-    localStorage.setItem("myGoal", JSON.stringify([...text, newText]));
-    setText(JSON.parse(localStorage.getItem("myGoal")));
 
+    dispatch(newGoal(newText));
     setTitle("");
     setBody("");
   };
 
   return (
-    <form className="input-form" onSubmit={onSubmitHandler}>
-      <div className="input-boxs">
+    <InputForm onSubmit={onSubmitHandler}>
+      <InputBox>
         <label>제목</label>
-        <input
+        <InputArea
           type="text"
-          className="input-area"
+          id="title"
           onChange={titleChangeHandler}
+          ref={titleRef}
           value={title}
-        ></input>
+        ></InputArea>
         <label>내용</label>
-        <input
+        <InputArea
           type="text"
-          className="input-area"
+          id="body"
           onChange={bodyChangeHandler}
+          ref={bodyRef}
           value={body}
-        ></input>
-      </div>
-      <button className="btn">추가하기</button>
-    </form>
+        ></InputArea>
+      </InputBox>
+      <SubmitBtn>추가하기</SubmitBtn>
+    </InputForm>
   );
 }
+
+const InputForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #d2daff;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  box-shadow: 1px 0px 2px #00000054;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+`;
+
+const InputArea = styled.input`
+  height: 70px;
+  width: 200px;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 20px;
+  font-size: 20px;
+  outline: none;
+  box-shadow: inset 2px 2px 3px #00000054;
+`;
+
+const SubmitBtn = styled.button`
+  height: 50px;
+  width: 200px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 50px;
+  box-shadow: inset 2px 2px 3px #00000054;
+  cursor: pointer;
+`;
 
 export default Form;
